@@ -1,6 +1,11 @@
 import Card from "./Card";
 
-export default function Game({ pokemonFetchResult, setScore, setBestScore }) {
+export default function Game({
+    pokemonFetchResult,
+    setScore,
+    setBestScore,
+    handleSelectPokemon,
+}) {
     let pokemonList;
 
     if (pokemonFetchResult.length === 0) {
@@ -12,7 +17,11 @@ export default function Game({ pokemonFetchResult, setScore, setBestScore }) {
     return (
         <main className="grid grid-cols-2">
             {pokemonList.map((pokemon) => (
-                <Card key={pokemon.name} pokemon={pokemon} />
+                <Card
+                    key={pokemon.name}
+                    pokemon={pokemon}
+                    handleSelectPokemon={handleSelectPokemon}
+                />
             ))}
         </main>
     );

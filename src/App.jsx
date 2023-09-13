@@ -6,6 +6,18 @@ function App() {
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
     const [pokemonFetchResult, setPokemonFetchResult] = useState([]);
+    const [selectedPokemon, setSelectedPokemon] = useState([]);
+
+    const handleSelectPokemon = (pokemon) => {
+        if (!selectedPokemon.includes(pokemon)) {
+            setSelectedPokemon([...selectedPokemon, pokemon]);
+            setScore(score + 1);
+        } else {
+            setSelectedPokemon([]);
+            setBestScore(score);
+            setScore(0);
+        }
+    };
 
     useEffect(() => {
         fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
@@ -27,6 +39,7 @@ function App() {
                 pokemonFetchResult={pokemonFetchResult}
                 setScore={setScore}
                 setBestScore={setBestScore}
+                handleSelectPokemon={handleSelectPokemon}
             />
         </>
     );
