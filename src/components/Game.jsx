@@ -15,7 +15,7 @@ export default function Game({
     }
 
     return (
-        <main className="grid grid-cols-2">
+        <main className="mx-auto grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             {pokemonList.map((pokemon) => (
                 <Card
                     key={pokemon.name}

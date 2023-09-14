@@ -27,20 +27,24 @@ function App() {
 
     return (
         <>
-            <header className="flex items-center justify-between">
-                <h1>Pokemon memory Game</h1>
-                <Score score={score} bestScore={bestScore} />
-            </header>
-            <p>
-                Get points by clicking on an image but don't click on any more
-                than once!
-            </p>
-            <Game
-                pokemonFetchResult={pokemonFetchResult}
-                setScore={setScore}
-                setBestScore={setBestScore}
-                handleSelectPokemon={handleSelectPokemon}
-            />
+            <div className="mx-4 max-w-3xl sm:mx-8 md:mx-auto">
+                <header className="flex items-center justify-between gap-4">
+                    <h1>Pokemon memory Game</h1>
+                    <Score score={score} bestScore={bestScore} />
+                </header>
+                <p>
+                    Get points by clicking on an image but don't click on any
+                    more than once!
+                </p>
+            </div>
+            <div className="mx-4 mt-8 sm:mx-8">
+                <Game
+                    pokemonFetchResult={pokemonFetchResult}
+                    setScore={setScore}
+                    setBestScore={setBestScore}
+                    handleSelectPokemon={handleSelectPokemon}
+                />
+            </div>
         </>
     );
 }
