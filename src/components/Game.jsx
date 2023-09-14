@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "./Card";
 
-export default function Game({
-    pokemonFetchResult,
-    setScore,
-    setBestScore,
-    handleSelectPokemon,
-}) {
+export default function Game({ pokemonFetchResult, handleSelectPokemon }) {
     const [images, setImages] = useState(null);
     const [imagesLoaded, setImagesLoaded] = useState(false);
     let pokemonList;
@@ -26,15 +21,15 @@ export default function Game({
                     imagesObject[response.name] = imageElement;
                 });
                 setImages(imagesObject);
-                setImagesLoaded(true);
             })
-            .catch((err) => console.error(err));
+            .catch((err) => console.error(err))
+            .finally(() => setImagesLoaded(true));
     }, [pokemonFetchResult]);
 
-    if (pokemonFetchResult.length === 0 || !imagesLoaded) {
+    if (!imagesLoaded || pokemonFetchResult.length === 0) {
         return <p>Loading...</p>;
     } else {
-        pokemonList = getRandomElements(pokemonFetchResult, 12);
+        pokemonList = shuffleArray(pokemonFetchResult);
     }
 
     return (
@@ -51,33 +46,16 @@ export default function Game({
     );
 }
 
-function getRandomElements(array, n) {
-    // Check if the number of elements to be returned is greater than the array length.
-    if (n > array.length) {
-        throw new Error(
-            "The number of elements to be returned cannot be greater than the array length."
-        );
+function shuffleArray(array) {
+    const newArray = [...array]; // Create a copy of the original array
+
+    for (let i = newArray.length - 1; i > 0; i--) {
+        // Generate a random index between 0 and i (inclusive)
+        const j = Math.floor(Math.random() * (i + 1));
+
+        // Swap the elements at i and j
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
 
-    // Create an empty array to store the random elements.
-    let randomElements = [];
-
-    // Create a set to store the already selected elements.
-    const selectedElements = new Set();
-
-    // Loop until we have 12 random elements.
-    while (randomElements.length < n) {
-        // Generate a random index.
-        const randomIndex = Math.floor(Math.random() * array.length);
-
-        // Check if the element at the random index has not been selected yet.
-        if (!selectedElements.has(array[randomIndex])) {
-            // Add the element to the random elements array and the selected elements set.
-            randomElements.push(array[randomIndex]);
-            selectedElements.add(array[randomIndex]);
-        }
-    }
-
-    // Return the array of random elements.
-    return randomElements;
+    return newArray; // Return the shuffled copy
 }
