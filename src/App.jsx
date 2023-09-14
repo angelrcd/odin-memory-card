@@ -5,8 +5,40 @@ import Game from "./components/Game";
 export default function App() {
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
+    const [generation, setGeneration] = useState("1");
     const [pokemonFetchResult, setPokemonFetchResult] = useState([]);
     const [selectedPokemon, setSelectedPokemon] = useState([]);
+
+    let url;
+    switch (generation) {
+        case "1":
+            url = "https://pokeapi.co/api/v2/pokemon?limit=151";
+            break;
+        case "2":
+            url = "https://pokeapi.co/api/v2/pokemon?offset=151&limit=100";
+            break;
+        case "3":
+            url = "https://pokeapi.co/api/v2/pokemon?offset=251&limit=135";
+            break;
+        case "4":
+            url = "https://pokeapi.co/api/v2/pokemon?offset=386&limit=107";
+            break;
+        case "5":
+            url = "https://pokeapi.co/api/v2/pokemon?offset=493&limit=156";
+            break;
+        case "6":
+            url = "https://pokeapi.co/api/v2/pokemon?offset=649&limit=72";
+            break;
+        case "7":
+            url = "https://pokeapi.co/api/v2/pokemon?offset=721&limit=88";
+            break;
+        case "8":
+            url = "https://pokeapi.co/api/v2/pokemon?offset=809&limit=96";
+            break;
+        case "9":
+            url = "https://pokeapi.co/api/v2/pokemon?offset=905&limit=100";
+            break;
+    }
 
     const handleSelectPokemon = (pokemon) => {
         if (!selectedPokemon.includes(pokemon)) {
@@ -21,14 +53,20 @@ export default function App() {
         }
     };
 
+    const handleGenerationChange = (generation) => {
+        setScore(0);
+        setBestScore(0);
+        setGeneration(generation);
+    };
+
     useEffect(() => {
-        fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+        fetch(url)
             .then((result) => result.json())
             .then((json) => {
                 const random12Pokemon = getRandomElements(json.results, 12);
                 setPokemonFetchResult(random12Pokemon);
             });
-    }, []);
+    }, [url]);
 
     return (
         <>
@@ -37,6 +75,24 @@ export default function App() {
                     <h1>Pokemon memory Game</h1>
                     <Score score={score} bestScore={bestScore} />
                 </header>
+                <label className="mr-3" htmlFor="pet-select">
+                    Choose a generation:
+                </label>
+                <select
+                    name="pets"
+                    value={generation}
+                    onChange={(e) => handleGenerationChange(e.target.value)}
+                    id="pet-select">
+                    <option value="1">1st Gen</option>
+                    <option value="2">2nd Gen</option>
+                    <option value="3">3rd Gen</option>
+                    <option value="4">4th Gen</option>
+                    <option value="5">5th Gen</option>
+                    <option value="6">6th Gen</option>
+                    <option value="7">7th Gen</option>
+                    <option value="8">8th Gen</option>
+                    <option value="9">9th Gen</option>
+                </select>
                 <p>
                     Get points by clicking on an image but don&apos;t click on
                     any more than once!
