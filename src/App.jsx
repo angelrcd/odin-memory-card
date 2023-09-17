@@ -9,6 +9,8 @@ export default function App() {
     const [pokemonFetchResult, setPokemonFetchResult] = useState([]);
     const [selectedPokemon, setSelectedPokemon] = useState([]);
 
+    const isWin = score === 12;
+
     let url;
     switch (generation) {
         case "1":
@@ -41,9 +43,17 @@ export default function App() {
     }
 
     const handleSelectPokemon = (pokemon) => {
+        if (isWin) {
+            setBestScore(12);
+            return;
+        }
+
         if (!selectedPokemon.includes(pokemon)) {
             setSelectedPokemon([...selectedPokemon, pokemon]);
             setScore(score + 1);
+            if (score === 11) {
+                setBestScore(12);
+            }
         } else {
             setSelectedPokemon([]);
             if (score > bestScore) {
@@ -72,7 +82,9 @@ export default function App() {
         <>
             <div className="mx-4 max-w-3xl sm:mx-8 md:mx-auto">
                 <header className="flex items-center justify-between gap-4">
-                    <h1>Pokemon memory Game</h1>
+                    <h1 className="font-[PressStart2P] text-xl">
+                        Pokemon memory Game
+                    </h1>
                     <Score score={score} bestScore={bestScore} />
                 </header>
                 <label className="mr-3" htmlFor="pet-select">
@@ -93,10 +105,14 @@ export default function App() {
                     <option value="8">8th Gen</option>
                     <option value="9">9th Gen</option>
                 </select>
-                <p>
-                    Get points by clicking on an image but don&apos;t click on
-                    any more than once!
-                </p>
+                {isWin ? (
+                    <p>Congrats! You got max score!</p>
+                ) : (
+                    <p>
+                        Get points by clicking on an image but don&apos;t click
+                        on any more than once!
+                    </p>
+                )}
             </div>
             <div className="mx-4 mt-8 sm:mx-8">
                 <Game

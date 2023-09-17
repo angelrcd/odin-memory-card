@@ -38,7 +38,7 @@ export default function Game({ pokemonFetchResult, handleSelectPokemon }) {
                 <Card
                     key={pokemon.name}
                     pokemon={pokemon}
-                    handleSelectPokemon={handleSelectPokemon}
+                    selectPokemon={() => handleSelectPokemon(pokemon.name)}
                     image={images[pokemon.name]}
                 />
             ))}
