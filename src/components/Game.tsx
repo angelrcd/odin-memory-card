@@ -36,10 +36,15 @@ export default function Game({ pokemonFetchResult, handleSelectPokemon }: GamePr
             .finally(() => {
                 setImagesLoaded(true);
             });
+
+        return () => {
+            setImages({});
+            setImagesLoaded(false);
+        };
     }, [pokemonFetchResult]);
 
     if (!imagesLoaded || pokemonFetchResult.length === 0) {
-        return <p>Loading...</p>;
+        return <p className="mx-auto grid max-w-3xl">Loading...</p>;
     } else {
         pokemonList = shuffleArray(pokemonFetchResult);
     }

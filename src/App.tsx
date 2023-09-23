@@ -82,6 +82,10 @@ export default function App() {
             .catch((e) => {
                 console.error(e);
             });
+
+        return () => {
+            setPokemonFetchResult([]);
+        };
     }, [url]);
 
     return (
